@@ -1,0 +1,430 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.container {
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.344);
+}
+
+.container-name {
+  top: 20%;
+  left: 50%;
+  position: absolute;
+  z-index: 2;
+  font-size: 50px;
+  transform: translateX(-50%);
+}
+
+input {
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  width: 80%;
+  border: none;
+  border-radius: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+button:hover {
+  scale: 1.1;
+}
+
+/* navbar */
+.navbar {
+  position: fixed; /* Menjaga navbar tetap di atas */
+  top: 0;
+  left: 0;
+  right: 0;
+  border: none;
+  z-index: 1000; /* Agar navbar berada di atas konten lainnya */
+  background-color: rgb(255, 255, 255) !important;
+}
+
+.container-navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.container-navbar a {
+  transition: 0.5s;
+  color: grey;
+}
+.container-navbar a:hover {
+  letter-spacing: 0.17em;
+  scale: 1.1;
+  color: black;
+}
+
+.nav-link.active {
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 10px #eeeeee, 0 0 15px #eeeeee, 0 0 20px #eeeeee;
+}
+
+/* end navbar */
+
+/* home */
+
+.content-home {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.bg {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.sky img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.bg.sky h2 {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  z-index: 20;
+  color: white;
+  font-size: 50px;
+  transform: translateX(-50%);
+}
+
+.road1 {
+  top: 0;
+  left: 50%;
+  position: absolute;
+  z-index: 2;
+  font-size: 50px;
+  transform: translateX(-50%);
+}
+
+.goal,
+.materi,
+.vid,
+.d3,
+.latihan {
+  width: 19%;
+  height: auto;
+  position: absolute;
+  z-index: 3;
+}
+
+.goal {
+  top: 10%;
+  right: 35%;
+}
+
+.materi {
+  bottom: 19%;
+  left: 35%;
+}
+
+.vid {
+  top: 80%;
+  right: 38%;
+}
+
+.d3 {
+  top: 10%;
+  left: 38%;
+}
+.latihan {
+  bottom: 20%;
+  right: 37%;
+}
+
+/* Default style untuk gambar */
+.goal img,
+.materi img,
+.vid img,
+.d3 img,
+.latihan img {
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.goal img:hover,
+.materi img:hover,
+.vid img:hover,
+.d3 img:hover,
+.latihan img:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 5px 10px rgb(255, 255, 255));
+  cursor: pointer;
+}
+
+.goal img:active,
+.materi img:active,
+.vid img:active,
+.d3 img:active,
+.latihan img:active,
+button:active {
+  transform: scale(0.95);
+}
+
+.road2 {
+  top: 0;
+  left: 49.73%;
+  position: absolute;
+  z-index: 2;
+  font-size: 50px;
+  transform: translateX(-50%);
+}
+
+.grass img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 6;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modal::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* =========== */
+
+/* materi */
+
+.container-title {
+  padding: 60px 20px 5px 20px;
+}
+
+.container-materi {
+  padding: 20px;
+  margin: 20px;
+  border: solid rgba(0, 0, 0, 0.204) 1px;
+  border-radius: 5px;
+  /* background-color: blue; */
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.container-materi textarea {
+  height: 40px;
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  overflow: hidden;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+.container-materi button {
+  width: auto;
+  height: 40px;
+}
+
+.container-opini {
+  display: flex;
+  justify-content: start;
+  
+  align-items: center;
+  
+}
+
+#result {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+details {
+  border: 2px solid #0000003b; /* Border untuk elemen details */
+  border-radius: 5px; /* Sudut yang melengkung */
+  padding: 10px; /* Jarak dalam */
+  margin: 10px 0; /* Jarak luar */
+  font-family: Arial, sans-serif; /* Font untuk teks */
+  background-color: #f9f9f9; /* Warna latar belakang */
+}
+
+
+summary {
+  
+  font-size: 18px; 
+  font-weight: bold; 
+  display: flex; 
+  align-items: center; 
+}
+
+summary img {
+  width: 40px; /* Ukuran gambar */
+  height: 40px; /* Ukuran gambar */
+  margin-right: 10px; /* Jarak antara gambar dan teks */
+}
+
+.content-materi {
+  padding: 20px;
+}
+
+.container-button button {
+  margin: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1000; 
+  width: 20vh;
+}
+
+.container-button {
+  display: flex;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+}
+
+
+
+
+@media (max-width: 480px) {
+  .goal,
+  .materi,
+  .vid,
+  .d3,
+  .latihan {
+    position: absolute; 
+    width: auto;
+    height: 40vh;
+    left: 50%;
+  }
+
+  .container-name{
+    font-size: 3vh;
+    z-index: 5;
+    width: 20vh;
+    padding-top: 20px;
+  }
+
+  
+  
+  .goal {
+    top: 0;
+    left: 30%;
+    transform: translateX(-50%);
+  }
+  
+  .materi {
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .vid {
+    bottom: 0%;
+    left: 30%;
+    transform: translateX(-50%);
+  }
+  
+  .d3 {
+    height: 50vh;
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .latihan {
+    bottom: 0%;
+    left: 30%;
+    transform: translateX(-50%);
+  }
+
+ 
+
+
+
+  .road1 {
+    display: none;
+  }
+
+  .road2 {
+    display: none;
+  }
+
+  .sky img {
+    width: auto;
+    object-fit: cover;
+  }
+
+  .grass img {
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* Untuk perangkat dengan lebar maksimum 768px (hp besar dan tablet) */
+@media (max-width: 768px) {
+  .container-name{
+    font-size: 3vh;
+    z-index: 5;
+    width: 80%;
+    padding-top: 20px;
+  }
+}
+
+

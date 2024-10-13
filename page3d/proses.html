@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perangkat Proses</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      canvas {
+        display: block;
+      }
+      /* Gaya loading bar */
+      #loadingContainer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 10px;
+        background-color: #e0e0e0;
+      }
+      #loadingBar {
+        width: 0;
+        height: 100%;
+        background-color: green;
+      }
+      /* Gaya tombol pause */
+      #pauseButton {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 1000; /* Supaya tombol terlihat di atas canvas */
+      }
+      
+    </style>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div class="container-navbar">
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="javascript:history.back()">
+                  <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  aria-current="page"
+                  href="https://maniktzyyy.github.io/manikyo/"
+                  >About Me</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <!-- Loading Bar -->
+    <div id="loadingContainer">
+      <div id="loadingBar"></div>
+    </div>
+
+    <!-- Tombol Pause -->
+    <button id="pauseButton">Pause</button>
+
+    <!-- Three.js and other scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      // Inisialisasi scene, kamera, dan renderer
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x77cdff);
+      document.body.appendChild(renderer.domElement);
+
+      // Mengatur kontrol kamera
+      const controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true; // Mengaktifkan efek damping
+      controls.dampingFactor = 0.25; // Mengatur faktor damping
+      controls.screenSpacePanning = false; // Mengatur panning hanya di sumbu Y
+      controls.maxPolarAngle = Math.PI / 2; // Batasi rotasi vertikal
+
+      // Tambahkan pencahayaan
+      const ambientLight = new THREE.AmbientLight(0xffffff, 1); // Cahaya ambient
+      scene.add(ambientLight);
+
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 10); // Cahaya arah
+      directionalLight.position.set(5, 30, 30);
+      scene.add(directionalLight);
+
+      const dracoLoader = new THREE.DRACOLoader();
+      dracoLoader.setDecoderPath(
+        "https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/draco/"
+      );
+
+      const loader = new THREE.GLTFLoader();
+      loader.setDRACOLoader(dracoLoader);
+
+      const loadingBar = document.getElementById("loadingBar");
+      let mixer; // Animation mixer
+      let isPaused = false; // Status animasi
+      const clock = new THREE.Clock(); // Jam untuk animasi
+
+      const loadModel = (modelPath, position, scale) => {
+        loader.load(
+          modelPath,
+          function (gltf) {
+            const model = gltf.scene;
+            scene.add(model);
+            model.position.set(...position);
+            model.scale.set(...scale);
+            // Buat AnimationMixer jika ada animasi
+            if (gltf.animations && gltf.animations.length) {
+              mixer = new THREE.AnimationMixer(model);
+              gltf.animations.forEach((clip) => {
+                mixer.clipAction(clip).play();
+              });
+            }
+            // Sembunyikan loading bar setelah model dimuat
+            document.getElementById("loadingContainer").style.display = "none";
+          },
+          function (xhr) {
+            // Perbarui loading bar berdasarkan kemajuan pemuatan
+            if (xhr.lengthComputable) {
+              const percentComplete = (xhr.loaded / xhr.total) * 100;
+              loadingBar.style.width = percentComplete + "%";
+            }
+          },
+          function (error) {
+            // Tampilkan kesalahan jika terjadi
+            console.error("Terjadi kesalahan saat memuat model:", error);
+            alert("Gagal memuat model: " + error.message);
+          }
+        );
+      };
+
+      // Memuat model dan mengatur posisi kamera
+      loadModel("model3d/rakitpc.gltf", [0, -3, 0], [0.1, 0.1, 0.1]);
+
+      camera.position.set(0, 0, 11); // Posisi kamera (x, y, z), sesuaikan nilai ini
+      camera.lookAt(0, 0, 0);
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        // Hanya perbarui mixer jika tidak dalam status pause
+        if (mixer) {
+          const delta = clock.getDelta(); // Ambil waktu delta
+          if (!isPaused) {
+            mixer.update(delta); // Perbarui mixer
+            controls.update(); // Perbarui kontrol
+          }
+        }
+
+        renderer.render(scene, camera); // Render scene
+      }
+
+      animate();
+
+      // Fungsi untuk mem-pause dan melanjutkan animasi
+      document.getElementById("pauseButton").addEventListener("click", () => {
+        isPaused = !isPaused; // Toggle status pause
+        document.getElementById("pauseButton").textContent = isPaused ? "Resume" : "Pause"; // Ganti teks tombol
+      });
+
+      window.addEventListener("resize", () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+      });
+    </script>
+  </body>
+</html>

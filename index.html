@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+
+    <!-- bootsrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <!-- icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <!-- mystile -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- <link rel="icon" href="Assets/images/Logo.png" type="image/png">
+    <link rel="shortcut icon" href="Assets/images/Logo.png" type="image/png"> -->
+
+    <title>Dashboard</title>
+    <style>
+      body {
+        background-image: url("Assets/background/bg.png");
+        background-repeat: repeat-y;
+        background-size: contain;
+        background-color: #96d80b;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- navbar -->
+    <div class="container-navbar">
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <div class="navbar-brand" href="#">Web Interaktif</div>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://maniktzyyy.github.io/manikyo/"
+                  >About Me</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <!-- endnavbar -->
+
+    <!-- content -->
+    <div class="content-home">
+      <!-- Langit -->
+      <div class="bg sky">
+        <img src="Assets/background/sky.png" alt="Langit" />
+        <div class="container-name">
+          <div class="container" id="welcomeSection">
+            <h1>Hallo Pejuang Ilmu !!!</h1>
+            <p>Masukan Nama :</p>
+            <input type="text" id="nameInput" placeholder="Enter your name" />
+            <button onclick="saveName()">Submit</button>
+          </div>
+
+          <div class="container" id="personalizedSection" style="display: none">
+            <h1>Hallo, <span id="userName"></span>!</h1>
+            <p>Senang bisa berkenalan denganmu!</p>
+            <button onclick="logout()">Log out</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Background rumput pertama -->
+
+      <div class="container-bg">
+        <!-- background 1 -->
+        <div class="bg grass">
+          <img src="Assets/background/grass.png" alt="Rumput Pertama" />
+          <img class="road1" src="Assets/shape/road1.png" alt="" />
+          <div class="goal" id="goal">
+            <a href="#">
+              <img src="Assets/shape/goal.png" alt="Goal" />
+            </a>
+          </div>
+          <div id="goalModal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <img src="Assets/shape/goaldialog.png" alt="Goal Image" />
+              <h2 >Hallo <span id="nama"></span> </h2>
+              <p>Tahukah kamu, Tujuan pembalajaran ini adalah</p>
+              <ul>
+                <li>Poin 1</li>
+                <li>Poin 2</li>
+                <li>Poin 3</li>
+              </ul>
+              <button id="okButton">OK</button>
+            </div>
+          </div>
+          <div class="materi">
+            <a href="Pages/materi.html">
+              <img src="Assets/shape/materi.png" alt="Materi" />
+            </a>
+          </div>
+          <div class="vid">
+            <a href="#video-page">
+              <img src="Assets/shape/vid.png" alt="Video" />
+            </a>
+          </div>
+        </div>
+
+        <!-- background 2 -->
+        <div class="bg grass">
+          <img src="Assets/background/grass.png" alt="Rumput Kedua" />
+          <img class="road2" src="Assets/shape/road2.png" alt="" />
+          <div class="d3">
+            <a href="Pages/main3dpage.html"><img src="Assets/shape/3d.png" alt="" /></a>
+          </div>
+          <div class="latihan">
+            <a href="#"><img src="Assets/shape/practice.png" alt="" /></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- end content -->
+
+    <!-- js script -->
+    <script src="scripts/script.js"></script>
+    <script src="scripts/getUsername.js"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>// Get the modal
+      var modal = document.getElementById("goalModal");
+      
+      // Get the goal element
+      var goal = document.getElementById("goal");
+      
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+      
+      // Get the OK button
+      var okButton = document.getElementById("okButton");
+      
+      // When the user clicks on the goal, open the modal
+      goal.onclick = function(event) {
+        event.preventDefault(); // Prevent default action of the <a> tag
+        modal.style.display = "block";
+      }
+      
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+        modal.style.display = "none";
+      }
+      
+      // When the user clicks on the OK button, close the modal
+      okButton.onclick = function() {
+        modal.style.display = "none";
+      }
+      
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+      </script>
+  </body>
+</html>
